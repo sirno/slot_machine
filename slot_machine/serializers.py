@@ -34,7 +34,7 @@ class SlotsSerializer:
                 value_type = type_hints[key]
                 value = (
                     value_type.__construct_yaml(loader, value_node)
-                    if issubclass(value_type, SlotsSerializer)
+                    if value_type is SlotsSerializer
                     else loader.construct_object(value_node)
                 )
                 mapping[key] = value
@@ -123,3 +123,4 @@ class SlotsSerializer:
     def show_tag(cls, subclass) -> Self:
         """Decorator to show tag in yaml output."""
         subclass._show_tag = True
+        return subclass
