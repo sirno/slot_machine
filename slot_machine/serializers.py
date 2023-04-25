@@ -4,8 +4,9 @@ from __future__ import annotations
 
 __all__ = ["SlotsSerializer", "SlotsLoader", "SlotsDumper"]
 
-import yaml
+import inspect
 import typing
+import yaml
 
 from typing_extensions import Self
 
@@ -25,6 +26,15 @@ class SlotsSerializer:
     """Serialize and deserialize YAML slotted dataclasses in order."""
 
     def __init_subclass__(cls) -> None:
+        # Check that all attributes have valid type hints
+        type_hints = typing.get_type_hints(cls)
+        for key, value in type_hints.items():
+            if not inspect.isclass(value):
+                raise TypeError(
+                    f"Type hint `{value}` for attribute `{key}` in class `{cls.__name__}` is not a class. "
+                    "Maybe you are trying to use a type alias from the typing module?"
+                )
+
         # Add constructor to the yaml decoder
         def construct_yaml(loader: SlotsSerializer, node: yaml.nodes.Node) -> cls:
             type_hints = typing.get_type_hints(cls)
@@ -34,7 +44,7 @@ class SlotsSerializer:
                 value_type = type_hints[key]
                 value = (
                     value_type.__construct_yaml(loader, value_node)
-                    if value_type is SlotsSerializer
+                    if issubclass(value_type, SlotsSerializer)
                     else loader.construct_object(value_node)
                 )
                 mapping[key] = value
