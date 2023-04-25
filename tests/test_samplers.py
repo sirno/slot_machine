@@ -14,7 +14,7 @@ class Basket(SlotsSerializer):
 
 def test_sample_basket():
     basket_distribution = """
-chicken_nuggets: !IntegerSampler 10..20
+chicken_nuggets: !RangeSampler 10..20
 price: !UniformSampler 9.99..20.0
 """
     basket = Basket.from_yaml(basket_distribution)

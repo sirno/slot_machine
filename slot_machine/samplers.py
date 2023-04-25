@@ -74,7 +74,7 @@ class RangeSampler(ScalarSampler):
         """Get the sample."""
         split = value.split("..")
 
-        if 1 < len(split) <= 3:
+        if not 1 < len(split) <= 3:
             raise ValueError(f"Invalid range: {value}")
 
         return random.randrange(*map(int, split))
