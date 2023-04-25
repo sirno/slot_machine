@@ -2,7 +2,7 @@
 
 ![tests](https://github.com/sirno/slot_machine/actions/workflows/tests.yml/badge.svg)
 
-Have you ever found yourself ruminating over which configuration to choose?
+Have you ever found yourself unclear over which configuration to choose?
 
 Don't choose.
 
