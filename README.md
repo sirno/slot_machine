@@ -23,8 +23,8 @@ With `slot_machine` your next choice will be one you look forward to.
 Simply add your favorite samplers to the configuration:
 
 ```yaml
-chicken_nuggets: !IntegerSampler 5..20
-price: !UniformSampler 9.99..20
+chicken_nuggets: !RangeSampler 5..20
+price: !UniformSampler 9..99..20
 ```
 
 Specify your dataclass and get rolling:
@@ -40,7 +40,7 @@ class Basket(SlotsSerializer):
 
 yaml_file = """
 basket:
-  chicken_nuggets: !IntegerSampler 5..10
+  chicken_nuggets: !RangeSampler 5..10
   price: !UniformSampler 9.99..20
 """
 
