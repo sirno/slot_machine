@@ -66,22 +66,45 @@ class UniformSampler(ScalarSampler):
         return random.uniform(*map(float, value.split("..")))
 
 
-class IntegerSampler(ScalarSampler):
-    """Sample from integer distribution."""
-
-    @classmethod
-    def get_sample(cls, value: str) -> int:
-        """Get the sample."""
-        return random.randint(*map(int, value.split("..")))
-
-
 class RangeSampler(ScalarSampler):
     """Sample from range distribution."""
 
     @classmethod
     def get_sample(cls, value: str) -> int:
         """Get the sample."""
-        return random.randrange(*map(int, value.split("..")))
+        split = value.split("..")
+
+        if 1 < len(split) <= 3:
+            raise ValueError(f"Invalid range: {value}")
+
+        return random.randrange(*map(int, split))
+
+
+class ChoiceSampler(ScalarSampler):
+    """Sample from choices."""
+
+    @classmethod
+    def get_sample(cls, values: list) -> int:
+        """Get the sample."""
+        return random.choice(values)
+
+
+class IntegerSampler(ScalarSampler):
+    """Sample from integer choices."""
+
+    @classmethod
+    def get_sample(cls, values: list) -> int:
+        """Get the sample."""
+        return random.choice(map(int, values))
+
+
+class FloatSampler(ScalarSampler):
+    """Sample from float choices."""
+
+    @classmethod
+    def get_sample(cls, values: list) -> float:
+        """Get the sample."""
+        return random.choice(map(float, values))
 
 
 class NormalSampler(ScalarSampler):
