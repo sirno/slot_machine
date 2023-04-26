@@ -4,13 +4,19 @@ from __future__ import annotations
 
 __all__ = [
     "Sampler",
+    # Sampler types
     "ScalarSampler",
     "MappingSampler",
     "SequenceSampler",
-    "UniformSampler",
-    "IntegerSampler",
-    "RangeSampler",
-    "NormalSampler",
+    # Scalar Samplers
+    "SampleUniform",
+    "SampleRange",
+    # Sequence Samplers
+    "Choose",
+    "ChooseInteger",
+    "ChooseFloat",
+    # Mapping Samplers
+    "SampleNormal",
 ]
 
 from abc import ABC, abstractclassmethod
@@ -67,7 +73,7 @@ class SequenceSampler(Sampler):
         return cls.get_sample(sequence)
 
 
-class UniformSampler(ScalarSampler):
+class SampleUniform(ScalarSampler):
     """Sample from uniform distribution."""
 
     @classmethod
@@ -76,7 +82,7 @@ class UniformSampler(ScalarSampler):
         return random.uniform(*map(float, value.split("..")))
 
 
-class RangeSampler(ScalarSampler):
+class SampleRange(ScalarSampler):
     """Sample from range distribution."""
 
     @classmethod
@@ -90,7 +96,7 @@ class RangeSampler(ScalarSampler):
         return random.randrange(*map(int, split))
 
 
-class ChoiceSampler(SequenceSampler):
+class Choose(SequenceSampler):
     """Sample from choices."""
 
     @classmethod
@@ -99,7 +105,7 @@ class ChoiceSampler(SequenceSampler):
         return random.choice(values)
 
 
-class IntegerSampler(SequenceSampler):
+class ChooseInteger(SequenceSampler):
     """Sample from integer choices."""
 
     @classmethod
@@ -108,7 +114,7 @@ class IntegerSampler(SequenceSampler):
         return random.choice(list(map(int, values)))
 
 
-class FloatSampler(SequenceSampler):
+class ChooseFloat(SequenceSampler):
     """Sample from float choices."""
 
     @classmethod
@@ -117,7 +123,7 @@ class FloatSampler(SequenceSampler):
         return random.choice(list(map(float, values)))
 
 
-class NormalSampler(ScalarSampler):
+class SampleNormal(MappingSampler):
     """Sample from normal distribution."""
 
     @classmethod

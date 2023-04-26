@@ -23,8 +23,8 @@ With `slot_machine` your next choice will be one you look forward to.
 Simply add your favorite samplers to the configuration:
 
 ```yaml
-chicken_nuggets: !RangeSampler 5..20
-price: !UniformSampler 9..99..20
+chicken_nuggets: !SampleRange 5..20
+price: !SampleUniform 9..99..20
 ```
 
 Specify your dataclass and get rolling:
@@ -40,8 +40,8 @@ class Basket(SlotsSerializer):
 
 yaml_file = """
 basket:
-  chicken_nuggets: !RangeSampler 5..10
-  price: !UniformSampler 9.99..20
+  chicken_nuggets: !SampleRange 5..10
+  price: !SampleUniform 9.99..20
 """
 
 surprise_basket = Basket.from_yaml(yaml_file)
@@ -58,7 +58,7 @@ class Basket(SlotsSerializer):
     chicken_nuggets: int
     splits: list[int]
 
-class SplitsSampler(MappingSampler):
+class SampleSplits(MappingSampler):
 
   @classmethod
   def get_sample(cls, n_splits: str, values: str):
@@ -69,7 +69,7 @@ class SplitsSampler(MappingSampler):
 yaml_file = """
 basket:
   chicken_nuggets: 100
-  splits: !SplitsSampler
+  splits: !SampleSplits
     n_splits: 3
     values: 0..100
 """
