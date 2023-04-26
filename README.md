@@ -24,7 +24,7 @@ Simply add your favorite samplers to the configuration:
 
 ```yaml
 chicken_nuggets: !SampleRange 5..20
-price: !SampleUniform 9..99..20
+price: !SampleUniform 9.99..20
 ```
 
 Specify your dataclass and get rolling:
