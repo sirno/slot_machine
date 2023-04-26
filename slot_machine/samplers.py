@@ -6,6 +6,7 @@ __all__ = [
     "Sampler",
     "ScalarSampler",
     "MappingSampler",
+    "SequenceSampler",
     "UniformSampler",
     "IntegerSampler",
     "RangeSampler",
@@ -57,6 +58,15 @@ class MappingSampler(Sampler):
         return cls.get_sample(**mapping)
 
 
+class SequenceSampler(Sampler):
+    """Define list sampler."""
+
+    @classmethod
+    def _construct_yaml(cls, loader: yaml.Loader, node: yaml.nodes.Node) -> Self:
+        sequence = loader.construct_sequence(node)
+        return cls.get_sample(sequence)
+
+
 class UniformSampler(ScalarSampler):
     """Sample from uniform distribution."""
 
@@ -80,7 +90,7 @@ class RangeSampler(ScalarSampler):
         return random.randrange(*map(int, split))
 
 
-class ChoiceSampler(ScalarSampler):
+class ChoiceSampler(SequenceSampler):
     """Sample from choices."""
 
     @classmethod
@@ -89,22 +99,22 @@ class ChoiceSampler(ScalarSampler):
         return random.choice(values)
 
 
-class IntegerSampler(ScalarSampler):
+class IntegerSampler(SequenceSampler):
     """Sample from integer choices."""
 
     @classmethod
     def get_sample(cls, values: list) -> int:
         """Get the sample."""
-        return random.choice(map(int, values))
+        return random.choice(list(map(int, values)))
 
 
-class FloatSampler(ScalarSampler):
+class FloatSampler(SequenceSampler):
     """Sample from float choices."""
 
     @classmethod
     def get_sample(cls, values: list) -> float:
         """Get the sample."""
-        return random.choice(map(float, values))
+        return random.choice(list(map(float, values)))
 
 
 class NormalSampler(ScalarSampler):
