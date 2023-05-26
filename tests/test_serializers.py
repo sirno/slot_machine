@@ -53,6 +53,24 @@ def test_simple_from_yaml():
     assert params.c == "abc"
 
 
+def test_simple_from_yaml_file():
+    """Test `from_yaml_file` method for simple class."""
+    params = Parameters.from_yaml_file("tests/data/parameters.yaml")
+    assert params.a == 2
+    assert params.b == 0.0
+    assert params.c == "abc"
+
+def test_simple_from_yaml_file_stream():
+    """Test `from_yaml_file_stream` method for simple class."""
+    params_list = Parameters.from_yaml_file_stream("tests/data/parameters_stream.yaml")
+    assert len(params_list) == 2
+    assert params_list[0].a == 2
+    assert params_list[0].b == 0.0
+    assert params_list[0].c == "abc"
+    assert params_list[1].a == 3
+    assert params_list[1].b == 1.0
+    assert params_list[1].c == "def"
+
 @dataclass(slots=True)
 class Inner(SlotsSerializer):
     value: int

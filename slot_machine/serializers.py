@@ -121,6 +121,14 @@ class SlotsSerializer:
             return cls.from_yaml(f.read())
 
     @classmethod
+    def from_yaml_file_stream(cls, path) -> list[Self]:
+        """Read from yaml file stream."""
+        with open(path, "r") as f:
+            content = f.read()
+            stream = content.split("---")
+            return [cls.from_yaml(yaml) for yaml in stream if yaml]
+
+    @classmethod
     def show_tag(cls, subclass) -> Self:
         """Decorator to show tag in yaml output."""
         subclass._show_tag = True
