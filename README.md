@@ -1,5 +1,7 @@
 # Slot Machine
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI version](https://badge.fury.io/py/slot-machine-serializers.svg)](https://badge.fury.io/py/slot-machine-serializers)
 ![tests](https://github.com/sirno/slot_machine/actions/workflows/tests.yml/badge.svg)
 
 Have you ever found yourself unclear over which configuration to choose?
