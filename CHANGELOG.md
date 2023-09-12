@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.5.0 (WIP)
+## 0.4.1
 
 - Rename package to `slot-machine-serializers`
+- Fix issue with `to_dict` method when it runs recursively
 
 ## 0.4.0
 
