@@ -67,7 +67,7 @@ class SlotsSerializer:
         if not recursive:
             return OrderedDict(self.__items())
 
-        type_hints = typing.get_type_hints(self)
+        type_hints = typing.get_type_hints(self.__class__)
         return OrderedDict(
             (k, v.to_dict() if issubclass(type_hints[k], SlotsSerializer) else v)
             for k, v in self.__items()
