@@ -4,14 +4,12 @@ from __future__ import annotations
 
 __all__ = ["SlotsSerializer", "SlotsLoader", "SlotsDumper"]
 
-import inspect
 import typing
-import yaml
-
-from typing_extensions import Self
-
 from collections import OrderedDict
 from typing import Dict
+
+import yaml
+from typing_extensions import Self
 
 
 class SlotsLoader(yaml.SafeLoader):
@@ -42,7 +40,7 @@ class SlotsSerializer:
             return cls(**mapping)
 
         cls.__construct_yaml = construct_yaml
-        SlotsLoader.add_constructor(f"!{cls.__name__}", construct_yaml)
+        SlotsLoader.add_constructor(f"!{cls.__name__}", cls.__construct_yaml)
 
         # Add representer to the yaml encoder
         def represent_yaml(dumper: SlotsDumper, data: cls) -> yaml.nodes.MappingNode:
@@ -56,7 +54,8 @@ class SlotsSerializer:
                 data.to_dict(),
             )
 
-        SlotsDumper.add_representer(cls, represent_yaml)
+        cls.__represent_yaml = represent_yaml
+        SlotsDumper.add_representer(cls, cls.__represent_yaml)
 
     def __items(self) -> typing.Iterator[typing.Tuple[str, typing.Any]]:
         for k in self.__slots__:
